@@ -14,11 +14,10 @@ const Map = () => {
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [2.3522, 48.8566], // Paris coordinates
+      center: [2.3522, 48.8566], // Paris coords
       zoom: 12,
     });
 
-    // Fix missing image warning for "rectangle-yellow-5"
     map.current.on('styleimagemissing', (e) => {
       if (e.id === 'rectangle-yellow-5') {
         map.current!.loadImage(
