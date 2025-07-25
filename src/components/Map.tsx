@@ -20,17 +20,23 @@ const Map = () => {
 
     map.current.on('styleimagemissing', (e) => {
       if (e.id === 'rectangle-yellow-5') {
-        map.current!.loadImage(
-          'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Yellow_rectangle.svg/1200px-Yellow_rectangle.svg.png',
+        map.current?.loadImage(
+          'https://upload.wikimedia.org/wikipedia/commons/9/9e/Yellow_rectangle.svg',
           (error, image) => {
-            if (error) throw error;
-            if (!map.current!.hasImage('rectangle-yellow-5')) {
-              map.current!.addImage('rectangle-yellow-5', image!);
+            if (error || !image) return;
+            if (map.current && !map.current.hasImage('rectangle-yellow-5')) {
+              map.current.addImage('rectangle-yellow-5', image);
             }
           }
         );
       }
     });
+
+    // Cleanup on unmount
+    return () => {
+      map.current?.remove();
+      map.current = null;
+    };
   }, []);
 
   return <div ref={mapContainer} className="w-full h-[500px] rounded-xl shadow-md" />;
